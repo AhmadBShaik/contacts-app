@@ -40,11 +40,6 @@ body{
     border-radius: 5px;
 }
 
-.search-bar input:focus{
-    outline: none;
-    border-color: #41B3A3;
-    border-width: 2px;
-}
 
 .contact-card{
     background-color: #ffffff;
@@ -65,12 +60,40 @@ body{
     font-size: 12px;
 }
 
-.new-contact{
+.new-contact-btn{
     display: flex;
     justify-content: center;
 }
 
-.new-contact button{
+.new-contact-form {
+    margin-top: 20px;
+}
+
+
+.new-contact-form > div{
+    display: flex;
+    justify-content: center;
+    padding: 0px 5px;
+    margin: 5px 0px;
+}
+
+.new-contact-form > div input{
+    padding: 6px;
+    width: 95%;
+    margin: 0px;
+    border: 1px #41B3A3 solid;
+    border-radius: 5px;
+    
+}
+.new-contact-form > div input:focus, .search-bar input:focus{
+    outline: none;
+    border-color: #41B3A3;
+    border-width: 2px;
+}
+
+
+
+.new-contact-btn button{
     margin: 10px 0px 5px 0px;
     width: 96%;
     padding: 5px;
@@ -79,5 +102,27 @@ body{
     color: #fff;
     font-weight: bold;
     border-radius: 6px;
+}
+
+.new-contact-form .form-btns{
+    padding: 5px 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-contact-form .form-btns > button{
+    padding: 5px;
+    border: none;
+    color:#fff;
+    border-radius: 4px;
+}
+
+li{
+    list-style-type: none;
+}
+
+.error-msg{
+    font-size: 15px;
+    color:red;   
 }
 
