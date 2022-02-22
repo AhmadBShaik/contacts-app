@@ -1,5 +1,5 @@
 import './App.css'
-function ContactsList({ isAddContactBtnVisible, toggle, contactList, addContact}){
+function ContactsList({ isAddContactBtnVisible, toggleCreateBtnState, contactList, addContact}){
     
 
 
@@ -7,7 +7,7 @@ function ContactsList({ isAddContactBtnVisible, toggle, contactList, addContact}
         return(
             <div>
                 <div className='new-contact-btn'>
-                    <button onClick={ toggle } >Create New Contact</button>
+                    <button onClick={ toggleCreateBtnState } >Create New Contact</button>
                 </div>
                 <ul>
                     { contactList.map(contact => (
@@ -42,7 +42,7 @@ function ContactsList({ isAddContactBtnVisible, toggle, contactList, addContact}
                 </div>
 
                 <div className="form-btns">
-                    <button onClick={ toggle } style={ {backgroundColor: '#fac415'}}>back</button>
+                    <button onClick={ toggleCreateBtnState } style={ {backgroundColor: '#fac415'}}>back</button>
                     <button onClick={ addContact } style={ {backgroundColor: '#22b629'}}>Add Contact</button>
                 </div>
 
