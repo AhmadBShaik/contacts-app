@@ -47,7 +47,7 @@ function SearchContactsList({
 
 								{contactList.indexOf(contact) !==
 									activeEditContact && (
-									<button className="call-btn">Call</button>
+										<a href={`tel:${contact.phoneNumber}`}><button className="call-btn">Call</button></a>
 								)}
 							</div>
 						</div>

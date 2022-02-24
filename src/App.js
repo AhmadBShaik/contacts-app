@@ -110,8 +110,10 @@ function App() {
 					className="search-bar"
 					id="search-bar"
 					onFocus={activeSearchHandler}>
-					<button id="back-search-btn" onClick={backSearchHandler}>
-						&#129136;
+					<button 
+						id="back-search-btn" 
+						onClick={backSearchHandler}>
+						&#8592;
 					</button>
 					<input
 						type="text"
