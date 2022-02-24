@@ -1,113 +1,142 @@
-import './App.css'
-import { useState } from 'react'
-import ContactsList from './ContactsList';
-import SearchContactsList from './SearchContactsList';
-import EmptyContactList from './EmptyContactList';
+import "./App.css";
+import { useState } from "react";
+import SearchContactListToggler from "./search/SearchContactListToggler";
+
+
 
 function App() {
+	const [isAddContactBtnVisible, setIsAddContactBtnVisible] = useState(true);
+	const [contactList, setContactList] = useState([]);
+	const [isSearchbarActive, setSearchbarStatus] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
 
-  const [isAddContactBtnVisible, setIsAddContactBtnVisible] = useState(true)
-  const [contactList, setContactList] = useState([])
-  const [isSearchbarActive, setSearchbarStatus] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  
-  function toggleStatusbarState(){
-    setSearchbarStatus(prevState => !prevState)
-  }
+	function toggleCreateBtnState() {
+		setIsAddContactBtnVisible((prevState) => !prevState);
+	}
 
-  function toggleCreateBtnState(){
-      setIsAddContactBtnVisible(prevState => !prevState)
-  }
-  
-  
-  function addContact(){
-      
-      const phoneNumber = document.getElementById('phone-number').value
-      const firstName = document.getElementById('first-name').value
-      const lastName = document.getElementById('last-name').value
-      
-      const phoneNumberElement = document.getElementById('phone-number')
-      const firstNameElement = document.getElementById('first-name')
-      
-      
-      if(phoneNumber.trim() !== "" && firstName.trim() !== "") {
-          
-          if(contactList.filter(contact => contact.phoneNumber == phoneNumber).length === 0){
-              const newContact = {phoneNumber, firstName, lastName}
-                setContactList([...contactList, newContact])
-                toggleCreateBtnState()
-            }else{
-                document.getElementById('already-exists-msg').innerHTML = "contact number already exists!"
-                
-                phoneNumberElement.addEventListener(
-                    'focus',
-                    () => document.getElementById('already-exists-msg').innerHTML = ""
-                    )
-                }
-                
-                
-            }else{
-                
-                phoneNumberElement.style.borderColor = "red"            
-                firstNameElement.style.borderColor = "red"
-                
-                phoneNumberElement.addEventListener(
-                    'focus',
-                    ()=> phoneNumberElement.style.borderColor = "#25bda8"
-                    )
-                    firstNameElement.addEventListener(
-                        'focus',
-                        ()=> firstNameElement.style.borderColor = "#25bda8"
-          )
-          
-      }
-    }
-    
-    function searchHandler(e){
-        const query = e.target.value
-        setSearchQuery(query)        
-    }
-  
-  let UI;
-  
-  if(!isSearchbarActive){
-    
-    UI = <>
-          <ContactsList 
-            isAddContactBtnVisible={ isAddContactBtnVisible } 
-            toggleCreateBtnState = { toggleCreateBtnState } 
-            contactList = { contactList } 
-            addContact = { addContact }/>
-            {contactList.length === 0 && <EmptyContactList/>} 
-        </>
-  }else{
+	function activeSearchHandler() {
+		document.getElementById("back-search-btn").style.display = "block";
+		document.getElementById("cancel-search-btn").style.display = "block";
+		setSearchbarStatus(true);
+	}
+	
+	function backSearchHandler() {
+		document.getElementById("search-input-field").value = "";
+		document.getElementById("search-input-field").style.width = "95%";
+		document.getElementById("back-search-btn").style.display = "none";
+		document.getElementById("cancel-search-btn").style.display = "none";
+		setSearchbarStatus(false);
+		setSearchQuery("");
+	}
+	
+	function cancelSearchHandler() {
+		document.getElementById("search-input-field").value = "";
+		document.getElementById("search-input-field").focus();
+	}
 
-    UI = <SearchContactsList
-      contactList = { contactList }
-      searchQuery = { searchQuery }
-    />
-  }
-    
-  return (
-    <div className='container'>
-      
-      {/* App title */}
-      <div className='app-name'>
-          <h3>Contacts App</h3>
-      </div>
+	function searchHandler(e) {
+		const query = e.target.value;
+		setSearchQuery(query);
+	}
 
-      {/* Searchbar */}
-      <div className='search-bar' id='search-bar' 
-        onFocus={toggleStatusbarState} 
-        onBlur= {toggleStatusbarState}
-        >
-          <input type='text' placeholder='search contacts' onChange={ searchHandler }/>
-      </div>
+	function addContact() {
+		const phoneNumber = document.getElementById("phone-number").value;
+		const firstName = document.getElementById("first-name").value;
+		const lastName = document.getElementById("last-name").value;
 
-    {UI}
+		const phoneNumberElement = document.getElementById("phone-number");
+		const firstNameElement = document.getElementById("first-name");
 
-    </div>
-  );
+		if (phoneNumber.trim() !== "" && firstName.trim() !== "") {
+			if (
+				contactList.filter(
+					(contact) => contact.phoneNumber === phoneNumber
+				).length === 0
+			) {
+				const newContact = { phoneNumber, firstName, lastName };
+
+				const updatedContactList = [...contactList, newContact].sort(
+					(a, b) => {
+						if (
+							a.firstName + " " + a.lastName >
+							b.firstName + " " + b.lastName
+						)
+							return 1;
+						else return -1;
+					}
+				);
+
+				setContactList(updatedContactList);
+				toggleCreateBtnState();
+			} else {
+				document.getElementById("already-exists-msg").innerHTML =
+					"contact number already exists!";
+
+				phoneNumberElement.addEventListener(
+					"focus",
+					() =>
+					(document.getElementById(
+						"already-exists-msg"
+					).innerHTML = "")
+				);
+			}
+		} else {
+			phoneNumberElement.style.borderColor = "red";
+			firstNameElement.style.borderColor = "red";
+
+			phoneNumberElement.addEventListener(
+				"focus",
+				() => (phoneNumberElement.style.borderColor = "#25bda8")
+			);
+
+			firstNameElement.addEventListener(
+				"focus",
+				() => (firstNameElement.style.borderColor = "#25bda8")
+			);
+		}
+	}
+
+
+	return (
+		<div className="container">
+			{/* App title */}
+			<div className="app-name">
+				<h3>Contacts App</h3>
+			</div>
+
+			{/* Searchbar */}
+			{isAddContactBtnVisible && (
+				<div
+					className="search-bar"
+					id="search-bar"
+					onFocus={activeSearchHandler}>
+					<button id="back-search-btn" onClick={backSearchHandler}>
+						&#129136;
+					</button>
+					<input
+						type="text"
+						placeholder="search contacts"
+						onChange={searchHandler}
+						id="search-input-field"/>
+					<button
+						id="cancel-search-btn"
+						onClick={cancelSearchHandler}>
+						&#10006;
+					</button>
+				</div>
+			)}
+
+			{/* toggles search and contactlist */}
+			<SearchContactListToggler
+				addContact={addContact}			
+				searchQuery={searchQuery}
+				contactList={contactList}
+				setContactList={setContactList}
+				isSearchbarActive = {isSearchbarActive}
+				toggleCreateBtnState={toggleCreateBtnState}
+				isAddContactBtnVisible={isAddContactBtnVisible}/>
+		</div>
+	);
 }
 
 export default App;

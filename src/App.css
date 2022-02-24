@@ -4,6 +4,7 @@
 }
 body{
     background-color: #85DCB0;
+    padding: 8px;
 }
 .container{
     min-height: 500px;    
@@ -30,6 +31,7 @@ body{
     display: flex;
     justify-content: center;
     padding: 0px 5px;
+    margin-top: 10px;
 }
 
 .search-bar input{
@@ -51,6 +53,7 @@ body{
 }
 
 .contact-name{
+    font-size: 18px;
     margin-left: 6px;
     margin-bottom: 6px;
 }
@@ -58,6 +61,7 @@ body{
 .contact-number{
     margin-left: 6px;
     font-size: 12px;
+    margin-bottom: 5px;
 }
 
 .new-contact-btn{
@@ -66,7 +70,7 @@ body{
 }
 
 .new-contact-form {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -126,3 +130,46 @@ li{
     color:red;   
 }
 
+.action-btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 6px;
+    margin-bottom: 0px;
+}
+
+.contact-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+button{
+    padding:5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.call-btn{
+    margin-right: 6px;
+    background-color: rgb(34, 182, 41);
+}
+
+.edit-btn{
+    background-color: rgb(250, 196, 21);
+}
+
+.delete-btn{
+    background-color: rgb(255, 72, 0);
+}
+
+#back-search-btn, #cancel-search-btn{
+    display: none;
+    /* width: 5%; */
+    background-color: #ececec;
+    color: #299788;
+    font-weight: bold;
+    padding: 0 5px 0 5px;
+}

@@ -1,38 +1,72 @@
-import EmptyContactList from './EmptyContactList'
+import { useState } from "react";
+import ActionSwapper from "./crud/ActionSwapper";
+import EmptyContactList from "./EmptyContactList";
 
-function SearchContactsList({ contactList, searchQuery}){
-    
-    const searchContactList = contactList
-                                    .filter(e => (e.phoneNumber).includes(searchQuery) ||
-                                        ((e.firstName + " "+ e.lastName).toLowerCase().trim())
-                                            .includes(searchQuery.toLowerCase().trim())
-                                    )
+function SearchContactsList({
+	contactList,
+	searchQuery,
+	setContactList,
+	isAddContactBtnVisible,
+}) {
 
-    let searchContactsUI;
-    
-    if(contactList.length === 0){
-        searchContactsUI = <EmptyContactList/> 
-    }else{
+	const [activeEditContact, setActiveEditContact] = useState(null);
 
-        searchContactsUI = <ul>
-                { searchContactList.map(contact => (
-                    <li key={contact.phoneNumber.toString()} className="contact-card">
-                        <p className="contact-name">
-                            { `${contact.firstName} ${contact.lastName}`}
-                        </p>
-                        <p className="contact-number">
-                            {contact.phoneNumber}
-                        </p>
-                    </li>
-                )) }
-            </ul>
-    }
-    return (
-        <div>
+	return(
+		<div>
+			{contactList.length === 0?
+			<EmptyContactList /> :
+			<ul>
+				{contactList.map((contact) => (
+					(contact.phoneNumber.includes(searchQuery.trim()) ||
+					(contact.firstName + " " + contact.lastName)
+						.toLowerCase()
+						.trim()
+						.includes(searchQuery.toLowerCase())) && searchQuery !== "" &&
+					<li
+						key={contact.phoneNumber.toString()}
+						id={`id-${contact.phoneNumber}`}
+						className="contact-card">
 
-            {searchContactsUI}
-        </div>
-    )
+						<div className="contact-content">
+							{contactList.indexOf(contact) !== activeEditContact && (
+								<div>
+									<p className="contact-name">
+										{`${contact.firstName} ${contact.lastName}`}
+									</p>
+									<p className="contact-number">
+										{contact.phoneNumber}
+									</p>
+								</div>
+							)}
+							<div
+								style={{
+									justifyContent: "center",
+									display: "flex",
+									alignItems: "center",
+								}}>
+
+								{contactList.indexOf(contact) !==
+									activeEditContact && (
+									<button className="call-btn">Call</button>
+								)}
+							</div>
+						</div>
+
+						<ActionSwapper
+							index={contactList.indexOf(contact)}
+							contact={contact}
+							contactList={contactList}
+							setContactList={setContactList}
+							activeEditContact={activeEditContact}
+							setActiveEditContact={setActiveEditContact}
+							isAddContactBtnVisible={isAddContactBtnVisible}
+						/>
+					</li>
+				))}
+			</ul>		
+			}
+		</div>
+	)
 }
 
-export default SearchContactsList
+export default SearchContactsList;
